@@ -1,0 +1,32 @@
+{{- if .Values.httproute.enabled }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ .Values.application.nameOverride }}
+  labels:
+    app.kubernetes.io/name: {{ .Values.application.nameOverride }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Values.application.deployment.image.tag }}
+    app.kubernetes.io/part-of: {{ .Values.application.nameOverride }}
+spec:
+  hostnames:
+  - {{ .Values.httproute.domain }}
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: wildcard-k8s-lan
+    namespace: infra-gateway
+  rules:
+    - backendRefs:
+      - group: ""
+        kind: Service
+        name: {{ .Values.application.nameOverride }}
+        port: {{ .Values.application.service.port | default 8080 }}
+        weight: 1
+      matches:
+      - path:
+          type: PathPrefix
+          value: /
+{{- end }}

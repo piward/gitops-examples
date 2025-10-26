@@ -1,0 +1,4 @@
+deployment:
+  image:
+    tag: "1.23.0"
+  replicas: 1

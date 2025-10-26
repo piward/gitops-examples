@@ -1,0 +1,4 @@
+Chart.lock
+charts/**/charts/
+kustomize/**/charts/
+*.tgz
