@@ -1,0 +1,11 @@
+---
+repoUrl: https://github.com/piward/gitops-examples
+cluster: https://kubernetes.default.svc
+revision: master
+#sourcePath: kustomize/app/overlays/dev
+sourcePath: helm/dev
+ignoreMissingValueFiles: false
+valueFiles:
+  - values.yaml
+  - ../base.yaml
+  - ../dev.yaml
